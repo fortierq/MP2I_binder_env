@@ -1,5 +1,7 @@
 name: 'Trigger-Binder-build'
-on: workflow_dispatch
+on:
+  push:
+    branches: [ main ]
 
 jobs:
   trigger-binder-build:
@@ -7,4 +9,4 @@ jobs:
     steps:
       - uses: s-weigand/trigger-mybinder-build@v1
         with:
-          target-repo: fortierq/MP2I_2021/main
+          target-repo: fortierq/MP2I_binder_env/main
