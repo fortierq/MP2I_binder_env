@@ -1,15 +1,6 @@
-FROM ubuntu
+FROM jupyter/base-notebook:2021-08-09
 
-ARG NB_USER=student
-ARG NB_UID=1000
-ENV USER ${NB_USER}
-ENV NB_UID ${NB_UID}
-ENV HOME /home/${NB_USER}
-
-RUN adduser --disabled-password \
-    --gecos "Default user" \
-    --uid ${NB_UID} \
-    ${NB_USER}
+USER root
 
 RUN apt-get update && apt install -y software-properties-common && add-apt-repository ppa:avsm/ppa \
     && apt install -y --no-install-recommends zlib1g-dev libffi-dev libgmp-dev libzmq5-dev pkg-config \
@@ -22,16 +13,14 @@ RUN apt-get update && apt install -y software-properties-common && add-apt-repos
     && python3 -m sos_notebook.install \
     && conda install -c conda-forge jupyterlab-sos xeus-cling
 
+USER ${NB_USER}
+
+WORKDIR ${HOME}
+
 RUN opam init -a -y --disable-sandboxing \
     && opam update \
     && opam upgrade -y \
     && eval $(opam env) \
     && opam install -y jupyter \
     && opam exec -- ocaml-jupyter-opam-genspec \
-    && jupyter kernelspec install --name ocaml-jupyter "$(opam config var share)/jupyter"
-
-COPY . ${HOME}
-USER root
-RUN chown -R ${NB_UID} ${HOME}
-USER ${NB_USER}
-WORKDIR ${HOME}
+    && jupyter kernelspec install --user --name ocaml-jupyter "$(opam config var share)/jupyter"
