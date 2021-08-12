@@ -1,1 +1,1 @@
-FROM qfortier/mp2i_binder:1.0
+FROM qfortier/mp2i:1.0.0
