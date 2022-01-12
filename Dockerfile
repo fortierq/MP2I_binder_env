@@ -1,1 +1,1 @@
-FROM qfortier/mp2i:1.1.0
+FROM qfortier/mp2i-tex:2.0.0
