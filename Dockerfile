@@ -1,2 +1,1 @@
-FROM qfortier/mp2i:3.0.0
-
+FROM qfortier/mp2i:3.0.1
